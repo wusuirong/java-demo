@@ -1,0 +1,58 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Archetype Created Web Application</display-name>
+
+	<servlet>
+		<servlet-name>chinesePageServlet</servlet-name>
+		<servlet-class>net.sherwin.javaweb.servlet.ChinesePageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>chinesePageServlet</servlet-name>
+		<url-pattern>/chinesePage</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>forwardUsageServlet</servlet-name>
+		<servlet-class>net.sherwin.javaweb.servlet.ForwardUsageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>forwardUsageServlet</servlet-name>
+		<url-pattern>/forwardUsage</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>sessionLoginServlet</servlet-name>
+		<servlet-class>net.sherwin.javaweb.sessiondemo.SessionLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sessionLoginServlet</servlet-name>
+		<url-pattern>/sessionDemo/sessionLoginServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>sessionLoginByCookieServlet</servlet-name>
+		<servlet-class>net.sherwin.javaweb.sessiondemo.SessionLoginByCookieServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sessionLoginByCookieServlet</servlet-name>
+		<url-pattern>/sessionLoginByCookieServlet</url-pattern>
+	</servlet-mapping>
+	
+	<jsp-config>
+		<taglib>
+		    <taglib-uri>
+		       http://sherwin.org/tagLearning/my-tag-lib
+		    </taglib-uri>
+		    <taglib-location>
+		       /WEB-INF/tlds/myTagLib.tld
+		    </taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

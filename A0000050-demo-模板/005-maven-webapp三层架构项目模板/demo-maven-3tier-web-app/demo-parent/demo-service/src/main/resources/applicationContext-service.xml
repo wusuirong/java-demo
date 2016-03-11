@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tool="http://www.springframework.org/schema/tool" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+            http://www.springframework.org/schema/tool http://www.springframework.org/schema/tool/spring-tool-4.0.xsd
+            http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd"
+	default-lazy-init="true">
+
+	<description>Spring-database配置</description>
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:config.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 扫描所有service包下的组件 -->
+	<context:component-scan base-package="com.xxx.webservice.biz.*,com.xxx.finance.*"/>
+	
+    <!-- redis缓存 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+        <property name="maxIdle" value="${redis.maxIdle}" />  
+        <property name="maxActive" value="${redis.maxActive}" />  
+        <property name="maxWait" value="${redis.maxWait}" />  
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />  
+    </bean> 
+    
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  
+	    p:host-name="${redis.host}" 
+	    p:port="${redis.port}" 
+	   /> 
+	   
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<!-- 如果不配置Serializer，那么存储的时候智能使用String，如果用User类型存储，那么会提示错误User can't cast  to String！！！ -->
+		<property name="keySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+	</bean>
+
+	
+    
+    <!-- RestTemplate配置 调用restFul -->
+     <bean id="httpRequestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="connectTimeout" value="10000" />
+        <property name="readTimeout" value="10000" />
+    </bean>
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="httpRequestFactory" />
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+
+
+	<!-- 事务管理器配置,单数据源事务 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 
+	transaction 语法说明
+	propagation选项
+		REQUIRED：支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。 
+		SUPPORTS：支持当前事务，如果当前没有事务，就以非事务方式执行。 
+		MANDATORY：支持当前事务，如果当前没有事务，就抛出异常。 
+		REQUIRES_NEW：新建事务，如果当前存在事务，把当前事务挂起。
+		NOT_SUPPORTED：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 
+		NEVER：以非事务方式执行，如果当前存在事务，则抛出异常。 
+		NESTED：支持当前事务，如果当前事务存在，则执行一个嵌套事务，如果当前没有事务，就新建一个事务。
+		
+	isolation选项
+		DEFAULT：这是默认值，表示使用底层数据库的默认隔离级别。对大部分数据库而言，通常这值就是READ_COMMITTED。
+		READ_UNCOMMITTED：该隔离级别表示一个事务可以读取另一个事务修改但还没有提交的数据。该级别不能防止脏读和不可重复读，因此很少使用该隔离级别。
+		READ_COMMITTED：该隔离级别表示一个事务只能读取另一个事务已经提交的数据。该级别可以防止脏读，这也是大多数情况下的推荐值。
+		REPEATABLE_READ：该隔离级别表示一个事务在整个过程中可以多次重复执行某个查询，并且每次返回的记录都相同。即使在多次查询之间有新增的数据满足该查询，这些新增的记录也会被忽略。该级别可以防止脏读和不可重复读。
+		SERIALIZABLE：所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
+	 -->
+	<tx:advice id="transactionInterceptor" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="5" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 
+	pointcut 语法说明
+	以pointcut="execution(* com.xxx.business..*.service.impl..*.*(..))"为例
+	execution(* com的* —— 通配 任意返回值类型
+	business..*.的.* —— 通配 包com.xxx.business.下的任意子包
+	impl..* 通配 包com.xxx.business..*.service.impl.下的任意class
+	最后的.* 通配class的任意方法
+	(..) 通配 方法可以有0个或多个参数
+	-->
+	<aop:config>
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.xxx..*.service..*ServiceImpl.*InTx(..))" order="20" />
+	</aop:config>
+</beans>
+    

@@ -1,0 +1,72 @@
+<project name="sampling" default="report">
+<!--
+看test和report这2个target即可
+这是在ant中运行junit以及生成junit报告的例子
+-->
+  <property file="build.properties"/>
+
+  <property name="src.dir" location="src"/>
+  <property name="src.java.dir" location="${src.dir}/main/java"/>
+  <property name="src.test.dir" location="${src.dir}/test/java"/>
+
+  <property name="target.dir" location="target"/>
+  <property name="target.classes.java.dir" 
+      location="${target.dir}/classes/java"/>
+  <property name="target.classes.test.dir" 
+      location="${target.dir}/classes/test"/>
+
+  <property name="target.report.dir" 
+      location="${target.dir}/report"/>
+
+  <target name="compile.java">
+    <mkdir dir="${target.classes.java.dir}"/>
+    <javac destdir="${target.classes.java.dir}">
+      <src path="${src.java.dir}"/>
+    </javac>
+  </target>
+
+  <target name="compile.test" depends="compile.java">
+    <mkdir dir="${target.classes.test.dir}"/>
+    <javac destdir="${target.classes.test.dir}">
+      <src path="${src.test.dir}"/>
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+        <pathelement location="E:\dba88\windows_files\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile.java,compile.test"/>
+  
+  <property name="tests" value="Test*"/>
+  
+  <target name="test" depends="compile">
+    <mkdir dir="${target.report.dir}"/>
+    <property name="tests" value="TestDefaultController"/>
+    <junit printsummary="yes" haltonerror="no" haltonfailure="no" fork="yes">
+      <formatter type="plain" usefile="false"/>
+      <formatter type="xml"/>
+      <batchtest todir="${target.report.dir}">
+        <fileset dir="${src.test.dir}">
+          <include name="**/${tests}.java"/>
+          <exclude name="**/Test*All.java"/>
+        </fileset>
+      </batchtest>
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+        <pathelement location="${target.classes.test.dir}"/>
+      </classpath>
+    </junit>
+  </target>
+
+  <target name="report" depends="test">
+    <mkdir dir="${target.report.dir}/html"/>
+    <junitreport todir="${target.report.dir}">
+      <fileset dir="${target.report.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report todir="${target.report.dir}/html"/>
+    </junitreport>
+  </target>
+
+</project>

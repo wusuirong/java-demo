@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>login page</title>
+		<!-- html中指示浏览器页面采用的编码 -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	</head>
+	<body>
+		<form action="chinesePage" method="get" >
+			演示中文传递与返回<p>
+			input your name: <input type="text" name="username" /><p>
+			<input type="submit" value="send" />
+		</form>
+		
+		<form action="forwardUsage" method="get" >
+			演示forward使用方式<p>
+			input your name: <input type="text" name="username" /><p>
+			<input type="submit" value="send" />
+		</form>
+		
+		<form action="sessionDemo/login.jsp" method="get" >
+			演示session使用方式<p>
+			<input type="submit" value="go" />
+		</form>
+		
+		<form action="sessionLoginByCookieServlet" method="get" >
+			演示session使用方式，通过cookie<p>
+			<input type="hidden" name="action" value="login" />
+			<input type="submit" value="go" />
+		</form>
+	</body>
+</html>

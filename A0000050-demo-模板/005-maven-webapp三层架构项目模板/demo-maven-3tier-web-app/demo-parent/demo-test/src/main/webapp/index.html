@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<script>
+			//window.location.href = 'main/main.htm';
+		</script>
+	</head>
+	<body>
+	   <a id="testPayment" href="testpayment/index.html">测试充值功能</a><br/><br/>
+	    <a id="testwithdraw" href="/assets/cashtest.html">提现</a>
+	   <a id="testTender" href="tender/tender.html">投资功能</a>
+	</body>
+	
+	<script>
+	var r = Math.random() * 10;
+	document.getElementById("testPayment").innerHTML="<a id='testPayment' href='testpayment/index.html?rnd=" + r + "'>测试充值功能</a>";
+	document.getElementById("testwithdraw").innerHTML="<a id='testwithdraw' href='/assets/cashtest.html?rnd=" + r + "'>提现</a>";
+	document.getElementById("testTender").innerHTML="<a id='testTender' href='tender/tender.html?rnd=" + r + "'>投资功能</a>";
+	</script>
+</html>
+

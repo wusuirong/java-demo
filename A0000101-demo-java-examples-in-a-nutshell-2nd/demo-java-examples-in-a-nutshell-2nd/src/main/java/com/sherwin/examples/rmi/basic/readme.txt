@@ -1,0 +1,9 @@
+编写远程接口定义GenPasswdService
+编写远程接口实现GenPasswdServiceImpl
+编译接口和实现
+用rmic编译实现GenPasswdServiceImpl.java，会生成stub和skeleton
+编写服务器RmiServer，在服务器内存新建GenPasswdServiceImpl对象，并绑定到jndi
+编写客户端RmiClient，通过jndi获取远程接口对象
+服务端打包，包括RmiServer，远程接口定义，远程接口实现，skeleton
+客户端打包，包括RmiClient，远程接口定义，stub
+启动rmi注册服务器：%JAVA_HOME%/bin/rmiregistry.exe

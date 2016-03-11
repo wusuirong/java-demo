@@ -1,0 +1,11 @@
+composite
+将对象组合成树形结构，允许客户用一致的方式来处理对象或对象组合
+
+demo
+
+weakness
+因为component包含了composite和leaf的功能，所以它具有2个责任
+composite模式牺牲单一责任来换取透明性
+所以，好的模式不一定没有缺点，矛盾总是存在的
+
+例子

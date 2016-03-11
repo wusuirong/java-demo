@@ -1,0 +1,4 @@
+这里演示的是java1.2的安全机制
+java安全涉及authentication和access control
+jvm使用SecurityManager掌管安全，Manager使用AccessController执行访问控制，而Controller参考Policy文件来审查程序操作
+使用Server的例子，运行时加入虚拟机参数-Djava.security.manager，然后用GenericClient连就会报错了
