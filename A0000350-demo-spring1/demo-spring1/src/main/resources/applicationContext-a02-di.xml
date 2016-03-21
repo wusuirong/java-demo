@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="broadsword" class="org.danny.demo.spring1.a02.di.G0009_刀">
+	</bean>
+
+	<bean id="a0010_基于xml注入的bean" class="org.danny.demo.spring1.a02.di.A0010_基于xml注入的bean">
+		<constructor-arg value="100"></constructor-arg>
+		<constructor-arg ref="broadsword"></constructor-arg>
+		<property name="attack" value="50"></property>
+	</bean>
+
+	<bean id="a0012_bean的初始化和销毁" class="org.danny.demo.spring1.a02.di.A0012_bean的初始化和销毁"
+		init-method="init" destroy-method="destroy"></bean>
+
+	<bean id="a0013_内部bean例子" class="org.danny.demo.spring1.a02.di.A0013_内部bean例子">
+		<property name="innerClazz">
+			<bean class="org.danny.demo.spring1.a02.di.A0013_InnerClazz"></bean>
+		</property>
+	</bean>
+
+	<bean id="a0014_装配集合例子" class="org.danny.demo.spring1.a02.di.A0014_装配集合例子">
+		<property name="intArray">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+		<property name="objectList">
+			<list>
+				<ref bean="a0010_基于xml注入的bean" />
+				<ref bean="a0012_bean的初始化和销毁" />
+			</list>
+		</property>
+		<property name="strSet">
+			<set>
+				<value>str1InSet</value>
+				<value>str2InSet</value>
+			</set>
+		</property>
+		<property name="strMap">
+			<map>
+				<entry key="key1InMap" value="value1InMap" />
+				<entry key="key2InMap" value="value2InMap" />
+			</map>
+		</property>
+		<property name="props">
+			<props>
+				<prop key="key1InProp">value1InProp</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

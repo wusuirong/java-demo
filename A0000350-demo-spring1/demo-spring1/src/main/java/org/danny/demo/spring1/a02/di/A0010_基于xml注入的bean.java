@@ -1,4 +1,4 @@
-package org.danny.demo.spring3.a02.di;
+package org.danny.demo.spring1.a02.di;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,12 +22,12 @@ public class A0010_基于xml注入的bean implements G0009_玩家接口定义 {
 
 	@Override
 	public void act() {
-		System.out.println("勇者出发了，目前生命值=" + health + "，攻击力=" + attack);
+		System.out.println("A0010_基于xml注入的bean 勇者出发了，目前生命值=" + health + "，攻击力=" + attack);
 		weapon.attack();
 	}
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("a02-di-applicationContext.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-a02-di.xml");
 		A0010_基于xml注入的bean a0010_基于xml注入的bean = (A0010_基于xml注入的bean)ctx.getBean("a0010_基于xml注入的bean");
 		a0010_基于xml注入的bean.act();
 	}

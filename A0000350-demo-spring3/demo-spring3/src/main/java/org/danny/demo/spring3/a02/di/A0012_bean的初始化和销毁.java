@@ -1,6 +1,5 @@
 package org.danny.demo.spring3.a02.di;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
