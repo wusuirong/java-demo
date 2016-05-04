@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-init-method="init"
 	default-destroy-method="destroy">
 
+	<bean id="a0011_把单例类定义为bean" class="org.danny.demo.spring2.a02.di.A0011_把单例类定义为bean" factory-method="getInstance"></bean>
 
-	<bean id="broadsword" class="org.danny.demo.spring3.a02.di.G0009_刀">
-	</bean>
-
-	<bean id="a0013_xml中使用命名空间p装配属性的bean" class="org.danny.demo.spring3.a02.di.A0013_xml中使用命名空间p装配属性的bean"
-		p:health="30" 
-		p:weapon-ref="broadsword"></bean>
 </beans>

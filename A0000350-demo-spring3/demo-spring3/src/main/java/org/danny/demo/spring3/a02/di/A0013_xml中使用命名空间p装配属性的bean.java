@@ -21,7 +21,7 @@ public class A0013_xml中使用命名空间p装配属性的bean implements G0009
 	}
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("a02-di-applicationContext.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-a02-di.xml");
 		A0013_xml中使用命名空间p装配属性的bean a0013_xml中使用命名空间p装配属性的bean = (A0013_xml中使用命名空间p装配属性的bean)ctx.getBean("a0013_xml中使用命名空间p装配属性的bean");
 		a0013_xml中使用命名空间p装配属性的bean.act();
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
     "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans default-autowire="byName">
 
 	<bean id="broadsword" class="org.danny.demo.spring1.a02.di.G0009_刀">
 	</bean>
@@ -42,7 +42,7 @@
 		</property>
 		<property name="strMap">
 			<map>
-				<entry key="key1InMap" value="value1InMap" />
+				<entry key="key1InMap" value="${key1InMap}" />
 				<entry key="key2InMap" value="value2InMap" />
 			</map>
 		</property>
@@ -52,4 +52,44 @@
 			</props>
 		</property>
 	</bean>
+	
+	<bean id="a0015_Bean初始化后处理的例子" class="org.danny.demo.spring1.a02.di.A0015_Bean初始化后处理的例子"></bean>
+	
+	<bean id="a0016_BeanFactory初始化后处理的例子" class="org.danny.demo.spring1.a02.di.A0016_BeanFactory初始化后处理的例子"></bean>
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>jdbc.properties</value>
+		</property>
+		<!--property name="locations">
+			<list>
+				<value></value>
+			</list>
+		</property-->
+	</bean>
+	
+	
+	<bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="org.danny.demo.spring1.a02.di.PhoneNumber">
+					<bean id="phoneEditor" class="org.danny.demo.spring1.a02.di.Phone属性编辑器"></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>	
+	<bean id="a0017_属性编辑器的例子" class="org.danny.demo.spring1.a02.di.A0017_属性编辑器的例子">
+		<property name="phoneNumber" value="888-555-1111"></property>
+	</bean>
+	
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="res"></property>
+	</bean>
+	<bean id="a0018_读取国际化资源的例子" class="org.danny.demo.spring1.a02.di.A0018_读取国际化资源的例子"></bean>
+	
+	
+	<bean id="a0019_事件监听者" class="org.danny.demo.spring1.a02.di.A0019_事件监听者"></bean>
+	
+	<bean id="a0019_事件发布者" class="org.danny.demo.spring1.a02.di.A0019_事件发布者"></bean>
 </beans>

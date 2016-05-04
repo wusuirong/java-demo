@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-init-method="init"
+	default-destroy-method="destroy">
+
+
+	<!--bean id="broadsword" class="org.danny.demo.spring2.a02.di.G0009_刀">
+	</bean-->
+	
+
+	
+	<bean id="a0021_玩家模板" class="org.danny.demo.spring2.a03.di.adv.A0021_玩家" abstract="true">
+		<property name="weapon" value="枪"></property>
+	</bean>
+	<bean id="danny" parent="a0021_玩家模板">
+		<property name="name" value="DANNY"></property>
+	</bean>
+	<bean id="joe" parent="a0021_玩家模板">
+		<property name="name" value="JOE"></property>
+	</bean>
+	
+	<bean id="a0021_公共属性" abstract="true">
+		<property name="height" value="20"></property>
+	</bean>
+	<bean id="door" class="org.danny.demo.spring2.a03.di.adv.A0021_门" parent="a0021_公共属性">
+		<property name="action" value="open"></property>
+	</bean>
+	<bean id="wall" class="org.danny.demo.spring2.a03.di.adv.A0021_墙" parent="a0021_公共属性">
+	</bean>
+	
+	
+	<!--bean id="a0012_bean的初始化和销毁" class="org.danny.demo.spring2.a02.di.A0012_bean的初始化和销毁"></bean>
+	
+	<bean id="a0013_xml中使用命名空间p装配属性的bean" class="org.danny.demo.spring2.a02.di.A0013_xml中使用命名空间p装配属性的bean"
+	p:health="30" p:weapon-ref="broadsword"></bean-->
+</beans>
