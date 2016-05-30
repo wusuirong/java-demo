@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="a0020_aop简单例子Target" class="org.danny.demo.spring1.a03.aop.A0020_aop简单例子"></bean>
+	
+	<bean id="a0020_前置Advice" class="org.danny.demo.spring1.a03.aop.A0020_前置Advice"></bean>
+	
+	<bean id="a0020_后置Advice" class="org.danny.demo.spring1.a03.aop.A0020_后置Advice"></bean>
+	
+	<bean id="a0020_环绕Interceptor" class="org.danny.demo.spring1.a03.aop.A0020_环绕Interceptor"></bean>
+	
+	<bean id="a0020_异常Advice" class="org.danny.demo.spring1.a03.aop.A0020_异常Advice"></bean>
+	
+	<bean id="a0020_aop简单例子" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces" value="org.danny.demo.spring1.a03.aop.G0009_aop接口定义"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>a0020_前置Advice</value>
+				<value>a0020_后置Advice</value>
+				<value>a0020_环绕Interceptor</value>
+				<value>a0020_异常Advice</value>
+			</list>
+		</property>
+		<property name="target" ref="a0020_aop简单例子Target"></property>
+	</bean>
+</beans>

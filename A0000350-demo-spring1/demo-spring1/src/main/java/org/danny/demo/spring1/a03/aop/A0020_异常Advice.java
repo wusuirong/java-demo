@@ -6,8 +6,8 @@ import org.springframework.aop.ThrowsAdvice;
 
 public class A0020_异常Advice implements ThrowsAdvice {
 
-	public void afterThrowing(Throwable throwable) {
-		System.out.println("捕获异常" + throwable);
+	public void afterThrowing(Exception exception) {
+		System.out.println("捕获异常" + exception);
 	}
 	
 	public void afterThrowing(A0020_自定义异常 exception) {

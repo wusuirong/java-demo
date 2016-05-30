@@ -21,7 +21,9 @@ public class RmiClient {
 	 * @throws MalformedURLException 
 	 */
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
-		String uri = "rmi://localhost/getPwd";
+		String uri = args[0]; //"rmi://localhost:20000/GetPwd";
+		System.out.println("rmi client lookup " + uri);
+		
 		GenPasswdService service = (GenPasswdService) Naming.lookup(uri);
 		String passwd = service.generatePassword("hello");
 		System.out.println(passwd);
