@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<project name="Ejb" default="test" basedir=".">
+
+  <property file="build.properties"/>
+
+  <property name="conf.dir" location="conf"/>
+  <property name="src.dir" location="src"/>
+  <property name="src.java.dir" location="${src.dir}/java"/>
+  <property name="src.test.dir" location="${src.dir}/test"/>
+
+  <property name="target.dir" location="target"/>
+  <property name="target.classes.java.dir" 
+      location="${target.dir}/classes"/>
+  <property name="target.classes.test.dir" 
+      location="${target.dir}/classes-test"/>
+    
+  <target name="compile">
+    <mkdir dir="${target.classes.java.dir}"/>
+    <javac destdir="${target.classes.java.dir}" 
+        srcdir="${src.java.dir}">
+      <classpath>
+        <pathelement location="${j2ee.jar}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="compile.test" depends="compile">
+    <mkdir dir="${target.classes.test.dir}"/>
+    <javac destdir="${target.classes.test.dir}" 
+        srcdir="${src.test.dir}">
+      <classpath>
+        <pathelement location="${j2ee.jar}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${target.classes.java.dir}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="ejbjar" depends="compile">
+    <jar destfile="${target.dir}/ejb.jar">
+      <metainf dir="${conf.dir}">
+        <include name="ejb-jar.xml"/>
+        <include name="jbosscmp-jdbc.xml"/>
+        <include name="jboss.xml"/>
+      </metainf>
+      <fileset dir="${target.classes.java.dir}"/>
+    </jar>
+  </target>
+
+  <target name="ear" depends="ejbjar">
+    <ear destfile="${target.dir}/ejb.ear" 
+        appxml="${conf.dir}/application.xml">
+      <fileset dir="${target.dir}">
+        <include name="ejb.jar"/>
+      </fileset>
+    </ear>
+  </target>
+
+  <target name="deploy" depends="ear">
+    <copy todir="${jboss.deploy.dir}" 
+        file="${target.dir}/ejb.ear"/>
+  </target>
+
+  <target name="start" depends="deploy">
+    <java classname="org.jboss.Main" fork="yes">
+      <jvmarg 
+          value="-Dprogram.name=${jboss.home.dir}/bin/run.bat"/>
+      <arg line="-c default"/>           
+      <classpath>
+        <pathelement location="${jboss.home.dir}/bin/run.jar"/>
+        <pathelement path="${java.home}/../lib/tools.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="stop">
+    <java classname="org.jboss.Shutdown" fork="yes">
+      <arg line="-s localhost"/>
+      <classpath>
+        <pathelement 
+            location="${jboss.home.dir}/bin/shutdown.jar"/>
+        <pathelement path="${java.home}/../lib/tools.jar"/>
+      </classpath>
+    </java>
+    <sleep seconds="15"/>
+  </target>
+        
+  <target name="test" depends="compile.test">
+    <parallel>
+      <antcall target="start"/>
+      <sequential>
+        <sleep seconds="30"/>
+        <antcall target="run"/>
+      </sequential>
+    </parallel>
+  </target>
+
+  <target name="runtest">
+    <junit printsummary="yes" fork="yes" errorproperty="test.error"
+        failureproperty="test.failure">
+      <formatter type="plain" usefile="false"/>
+      <test name="junitbook.ejb.service.TestPetstoreEJB"/>
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+        <pathelement location="${target.classes.test.dir}"/>
+        <fileset dir="${jboss.home.dir}/client">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </junit>
+  </target>
+
+  <target name="checktestfailures" if="test.failure">
+    <fail>There were test failures</fail>
+  </target>
+
+  <target name="checktesterrors" if="test.error">
+    <fail>There were test errors</fail>
+  </target>
+    
+  <target name="run" 
+      depends="runtest,stop,checktesterrors,checktestfailures">
+  </target>
+
+  <target name="clean">
+    <delete dir="${target.dir}"/>
+  </target>
+
+</project>

@@ -1,0 +1,23 @@
+# Rename this file to build.properties and edit it to match your local
+# directory structure (specifically the location of where JBoss is
+# installed and where the Cactus/Ant integration is located).
+
+cactus.home.jboss3x = C:/Apps/jboss-3.2.1
+
+database = ${cactus.home.jboss3x}/server/default/data/hypersonic/default
+
+lib.dir = ../repository
+
+hsqldb.jar = ${cactus.home.jboss3x}/server/default/lib/hsqldb.jar
+
+beanutils.jar = ${lib.dir}/commons-beanutils/jars/commons-beanutils-1.6.1.jar
+collections.jar = ${lib.dir}/commons-collections/jars/commons-collections-2.1.jar
+servlet.jar = ${lib.dir}/servletapi/jars/servletapi-2.3.jar
+
+cactus.jar = ${lib.dir}/cactus/jars/cactus-13-1.5-beta1.jar
+cactus.ant.jar = ${lib.dir}/cactus/jars/cactus-ant-13-1.5-beta1.jar
+aspectjrt.jar = ${lib.dir}/aspectj/jars/aspectjrt-1.0.6.jar
+dbunit.jar = ${lib.dir}/dbunit/jars/dbunit-1.5.5.jar
+exml.jar = ${lib.dir}/dbunit/jars/exml-dbunit-1.5.5.jar
+logging.jar = ${lib.dir}/commons-logging/jars/commons-logging-1.0.3.jar
+httpclient.jar = ${lib.dir}/commons-httpclient/jars/commons-httpclient-2.0-rc1.jar

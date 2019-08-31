@@ -1,0 +1,2 @@
+mvn archetype:generate -DarchetypeCatalog=internal -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.0 -DgroupId=org.danny.demo -DartifactId=demo-jmockit -Dversion=1.0-SNAPSHOT -Dpackage=org.danny.demo.jmockit
+pause

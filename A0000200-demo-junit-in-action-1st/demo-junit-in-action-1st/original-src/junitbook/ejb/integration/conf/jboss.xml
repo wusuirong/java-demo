@@ -1,0 +1,24 @@
+<jboss>
+  <enterprise-beans>
+
+    <session>
+      <ejb-name>Petstore</ejb-name>
+      <jndi-name>ejb/petstore/Petstore</jndi-name>     
+      <resource-env-ref>
+        <resource-env-ref-name>jms/queue/petstore/Order</resource-env-ref-name>
+        <jndi-name>queue/petstore/Order</jndi-name>
+      </resource-env-ref>
+    </session>
+
+    <entity>
+      <ejb-name>Order</ejb-name>
+      <local-jndi-name>ejb/petstore/Order</local-jndi-name>
+    </entity>
+
+    <message-driven>
+      <ejb-name>OrderProcessor</ejb-name>
+      <destination-jndi-name>queue/petstore/Order</destination-jndi-name>
+    </message-driven>
+    
+  </enterprise-beans>
+</jboss>

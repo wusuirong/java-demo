@@ -31,10 +31,16 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4.1209</version>
+		</dependency>
+
+		<!--dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>10.1.0.4</version>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>javax.servlet</groupId>

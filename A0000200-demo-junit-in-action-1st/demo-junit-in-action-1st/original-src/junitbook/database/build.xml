@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<project name="Database" default="test" basedir=".">
+
+  <property file="build.properties"/>
+  <property name="conf.dir" location="conf"/>
+    
+  <target name="compile">
+    <mkdir dir="target/classes"/>
+    <javac destdir="target/classes" srcdir="src/java">
+      <classpath>
+        <pathelement location="${beanutils.jar}"/>
+        <pathelement location="${servlet.jar}"/>
+      </classpath>
+    </javac>
+  </target>
+    
+  <target name="war" depends="compile">
+    <war destfile="target/database.war" 
+        webxml="src/webapp/WEB-INF/web.xml">
+      <classes dir="target/classes"/>
+      <lib file="${beanutils.jar}"/>
+      <lib file="${collections.jar}"/>
+    </war>
+  </target>
+
+  <target name="createdb">
+    <sql driver="org.hsqldb.jdbcDriver"
+        url="jdbc:hsqldb:${database}"
+        userid="sa"
+        password="">          
+      <fileset dir="${conf.dir}">
+        <include name="data.sql" />
+      </fileset>
+      <classpath>
+        <pathelement location="${hsqldb.jar}"/>
+      </classpath>
+    </sql>
+  </target>
+
+  <target name="clean">
+    <delete dir="target"/>
+  </target>
+
+  <!-- Targets related to Cactus testing -->
+    
+  <target name="compile.cactustest">
+    <mkdir dir="target/cactus-test-classes"/>
+    <javac destdir="target/cactus-test-classes" 
+        srcdir="src/test-cactus">
+      <classpath>
+        <pathelement location="target/classes"/>
+        <pathelement location="${beanutils.jar}"/>
+        <pathelement location="${dbunit.jar}"/>
+        <pathelement location="${cactus.jar}"/>
+      </classpath>
+    </javac>
+    <copy todir="target/cactus-test-classes">
+      <fileset dir="src/test-cactus">
+        <include name="**/*.xml"/>
+      </fileset>
+    </copy>
+  </target>
+        
+  <target name="test" depends="war,compile.cactustest">
+
+    <taskdef resource="cactus.tasks">
+      <classpath>
+        <pathelement location="${cactus.ant.jar}"/>
+        <pathelement location="${cactus.jar}"/>
+        <pathelement location="${logging.jar}"/>
+        <pathelement location="${aspectjrt.jar}"/>
+        <pathelement location="${httpclient.jar}"/>
+      </classpath>
+    </taskdef>
+
+    <cactifywar srcfile="target/database.war"
+        destfile="target/test.war">
+      <classes dir="target/cactus-test-classes"/>
+      <lib file="${dbunit.jar}"/>
+      <lib file="${exml.jar}"/>
+    </cactifywar>
+
+    <cactus warfile="target/test.war" fork="yes" printsummary="yes"
+        haltonerror="true" haltonfailure="true">
+      <containerset>
+        <jboss3x dir="${cactus.home.jboss3x}" 
+            output="target/jbossresult.txt"/>
+      </containerset>
+      <formatter type="brief" usefile="false"/>
+      <batchtest>
+        <fileset dir="src/test-cactus">
+          <include name="**/TestJdbcDataAccessManagerIC.java"/>
+        </fileset>
+      </batchtest>
+      <classpath>
+        <pathelement location="target/classes"/>
+        <pathelement location="target/cactus-test-classes"/>
+        <pathelement location="${dbunit.jar}"/>
+      </classpath>
+    </cactus>
+
+  </target>
+    
+</project>

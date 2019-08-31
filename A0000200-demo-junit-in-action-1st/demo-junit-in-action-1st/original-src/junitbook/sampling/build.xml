@@ -1,0 +1,90 @@
+<project name="sampling" default="test">
+
+  <property file="build.properties"/>
+
+  <property name="src.dir" location="src"/>
+  <property name="src.java.dir" location="${src.dir}/java"/>
+  <property name="src.test.dir" location="${src.dir}/test"/>
+
+  <property name="target.dir" location="target"/>
+  <property name="target.classes.java.dir" 
+      location="${target.dir}/classes/java"/>
+  <property name="target.classes.test.dir" 
+      location="${target.dir}/classes/test"/>
+
+  <property name="target.report.dir" 
+      location="${target.dir}/report"/>
+
+  <target name="compile.java">
+    <mkdir dir="${target.classes.java.dir}"/>
+    <javac destdir="${target.classes.java.dir}">
+      <src path="${src.java.dir}"/>
+    </javac>
+  </target>
+
+  <target name="compile.test" depends="compile.java">
+    <mkdir dir="${target.classes.test.dir}"/>
+    <javac destdir="${target.classes.test.dir}">
+      <src path="${src.test.dir}"/>
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile.java,compile.test"/>
+
+  <target name="test" depends="compile">
+    <mkdir dir="${target.report.dir}"/>
+    <property name="tests" value="TestDefaultController"/>
+    <junit printsummary="yes" haltonerror="yes" haltonfailure="yes" 
+        >
+      <formatter type="plain" usefile="false"/>
+      <formatter type="xml"/>
+      <batchtest todir="${target.report.dir}">
+        <fileset dir="${src.test.dir}">
+          <include name="**/${tests}.java"/>
+          <exclude name="**/Test*All.java"/>
+        </fileset>
+      </batchtest>
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+        <pathelement location="${target.classes.test.dir}"/>
+        <pathelement path="${ant.home}/lib/clover.jar"/>
+      </classpath>
+    </junit>
+  </target>
+
+  <target name="report" depends="test">
+    <mkdir dir="${target.report.dir}/html"/>
+    <junitreport todir="${target.report.dir}">
+      <fileset dir="${target.report.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report todir="${target.report.dir}/html"/>
+    </junitreport>
+  </target>
+
+  <target name="clean">
+    <delete dir="${target.dir}"/>
+  </target>
+
+<!--
+  <target name="clover.init">
+    <taskdef resource="clovertasks"/>
+    <clover-setup initString="${target.dir}/clover_coverage.db">
+      <files>
+        <exclude name="**/Test*.java"/>
+      </files>
+    </clover-setup>
+  </target>
+
+  <target name="clover" depends="clean,clover.init,test">
+    <clover-report>
+      <current outfile="${target.dir}/clover" title="Clover Report">
+        <format type="html"/> 
+      </current>	 
+    </clover-report>
+  </target>
+-->
+</project>

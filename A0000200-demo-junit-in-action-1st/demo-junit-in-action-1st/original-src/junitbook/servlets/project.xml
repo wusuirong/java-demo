@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+  <id>junitbook-servlets</id>
+  <name>JUnit in Action - Unit-testing servlets and filters</name>
+  <currentVersion>1.0</currentVersion>
+  <organization>
+    <name>Manning Publications Co.</name>
+    <url>http://www.manning.com/</url>
+    <logo>http://www.manning.com/front/dance.gif</logo>
+  </organization>
+  <inceptionYear>2002-2003</inceptionYear>
+  <package>junitbook.servlets</package>
+  <logo>/images/jia.jpg</logo>
+
+  <description>
+    Chapter 9 shows how to unit test Servlets annd Filters using 
+    both the Mock Object approach and the in-container approach. 
+    It highlights how they complement each other and give 
+    strategies on when to use them. 
+  </description>
+  <shortDescription>
+    Chapter 9 of JUnit in Action: Unit-testing servlets and filters
+  </shortDescription>
+
+  <url>http://sourceforge.net/projects/junitbook/</url>
+
+  <developers>
+    <developer>
+      <name>Vincent Massol</name>
+      <id>vmassol</id>
+      <email>vmassol@users.sourceforge.net</email>
+      <organization>Pivolis</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6.1</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mockobjects</groupId>
+      <artifactId>mockobjects-core</artifactId>
+      <version>0.09</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/Test*All.java</exclude>
+      </excludes>
+    </unitTest>
+  </build>
+
+  <reports>
+    <report>maven-cactus-plugin</report>
+  </reports>
+
+</project>

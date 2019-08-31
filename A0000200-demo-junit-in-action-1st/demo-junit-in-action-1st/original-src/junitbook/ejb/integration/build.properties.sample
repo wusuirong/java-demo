@@ -1,0 +1,21 @@
+# Edit and rename to build.properties
+
+jboss.home.dir = C:/Apps/jboss-3.2.1
+jboss.server.dir = ${jboss.home.dir}/server/default
+jboss.deploy.dir = ${jboss.server.dir}/deploy
+
+j2ee.jar = ${jboss.server.dir}/lib/jboss-j2ee.jar
+
+# for Cactus tests
+
+cactus.home.jboss3x = C:/Apps/jboss-3.2.1
+
+lib.dir = ../../repository
+
+cactus.jar = ${lib.dir}/cactus/jars/cactus-13-1.5-beta1.jar
+cactus.ant.jar = ${lib.dir}/cactus/jars/cactus-ant-13-1.5-beta1.jar
+aspectjrt.jar = ${lib.dir}/aspectj/jars/aspectjrt-1.0.6.jar
+dbunit.jar = ${lib.dir}/dbunit/jars/dbunit-1.5.5.jar
+exml.jar = ${lib.dir}/dbunit/jars/exml-dbunit-1.5.5.jar
+logging.jar = ${lib.dir}/commons-logging/jars/commons-logging-1.0.3.jar
+httpclient.jar = ${lib.dir}/commons-httpclient/jars/commons-httpclient-2.0-rc1.jar

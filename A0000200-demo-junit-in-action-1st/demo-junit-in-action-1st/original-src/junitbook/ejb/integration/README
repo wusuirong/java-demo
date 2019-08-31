@@ -1,0 +1,13 @@
+If you're using JBoss 3.2.1, you need to make an adjustment to
+one of its configuration file which was shipped with a wrong
+value:
+
+Replace
+
+<attribute name="RecursiveSearch">False</attribute>
+
+by
+
+<attribute name="RecursiveSearch">True</attribute>
+
+in server/default/conf/jboss-service.xml

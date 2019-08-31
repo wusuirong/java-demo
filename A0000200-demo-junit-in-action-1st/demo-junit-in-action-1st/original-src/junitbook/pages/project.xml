@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+  <id>junitbook-pages</id>
+  <name>JUnit in Action - Unit-testing JSPs and Taglibs</name>
+  <currentVersion>1.0</currentVersion>
+  <organization>
+    <name>Manning Publications Co.</name>
+    <url>http://www.manning.com/</url>
+    <logo>http://www.manning.com/front/dance.gif</logo>
+  </organization>
+  <inceptionYear>2002-2003</inceptionYear>
+  <package>junitbook.pages</package>
+  <logo>/images/jia.jpg</logo>
+
+  <description>
+    Chapter 10 carries us into the world of unit testing JSPs and Taglibs. It 
+    shows how to use the Mock Objects and In-Container strategies.
+  </description>
+  <shortDescription>
+    Chapter 10 of JUnit in Action: Unit-testing JSPs and Taglibs
+  </shortDescription>
+
+  <url>http://sourceforge.net/projects/junitbook/</url>
+
+  <developers>
+    <developer>
+      <name>Vincent Massol</name>
+      <id>vmassol</id>
+      <email>vmassol@users.sourceforge.net</email>
+      <organization>Pivolis</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6.1</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.0.2</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.0.2</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>mockobjects</groupId>
+      <artifactId>mockobjects-core</artifactId>
+      <version>0.09</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mockmaker</groupId>
+      <artifactId>mmmockobjects</artifactId>
+      <version>1.12.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/Test*All.java</exclude>
+      </excludes>
+    </unitTest>
+  </build>
+
+  <reports>
+    <report>maven-cactus-plugin</report>
+  </reports>
+
+</project>

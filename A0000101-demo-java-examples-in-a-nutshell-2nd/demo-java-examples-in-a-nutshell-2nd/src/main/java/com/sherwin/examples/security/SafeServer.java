@@ -8,10 +8,9 @@
  * visit http://www.davidflanagan.com/javaexamples2.
  */
 package com.sherwin.examples.security;
-import com.davidflanagan.examples.net.Server;
-import java.io.*;
-import java.net.*;
-import java.security.*;
+import com.sherwin.examples.net.Server;
+
+import java.net.URL;
 
 /**
  * This class is a program that uses the Server class defined in Chapter 5.

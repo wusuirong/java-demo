@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+
+<project name="Ejb" default="test" basedir=".">
+
+  <property file="build.properties"/>
+
+  <property name="conf.dir" location="conf"/>
+  <property name="src.dir" location="src"/>
+  <property name="src.java.dir" location="${src.dir}/java"/>
+  <property name="src.cactus.dir" 
+      location="${src.dir}/test-cactus"/>
+
+  <property name="target.dir" location="target"/>
+  <property name="target.classes.java.dir" 
+      location="${target.dir}/classes"/>
+  <property name="target.classes.cactus.dir"
+      location="${target.dir}/classes-test-cactus"/>
+    
+  <target name="compile">
+    <mkdir dir="${target.classes.java.dir}"/>
+    <javac destdir="${target.classes.java.dir}" 
+        srcdir="${src.java.dir}">
+      <classpath>
+        <pathelement location="${j2ee.jar}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="compile.cactus" depends="compile">
+    <mkdir dir="${target.classes.cactus.dir}"/>
+    <javac destdir="${target.classes.cactus.dir}" 
+        srcdir="${src.cactus.dir}">
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+        <pathelement location="${cactus.jar}"/>
+        <pathelement location="${j2ee.jar}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="ejbjar" depends="compile">
+    <jar destfile="${target.dir}/ejb.jar">
+      <metainf dir="${conf.dir}">
+        <include name="ejb-jar.xml"/>
+        <include name="jbosscmp-jdbc.xml"/>
+        <include name="jboss.xml"/>
+      </metainf>
+      <fileset dir="${target.classes.java.dir}"/>
+    </jar>
+  </target>
+
+  <target name="ear" depends="ejbjar">
+    <ear destfile="${target.dir}/ejb.ear" 
+        appxml="${conf.dir}/application.xml">
+      <fileset dir="${target.dir}">
+        <include name="ejb.jar"/>
+      </fileset>
+    </ear>
+  </target>
+
+  <target name="clean">
+    <delete dir="${target.dir}"/>
+  </target>
+
+  <target name="ear.cactify" depends="compile.cactus,ear">
+
+    <taskdef resource="cactus.tasks">
+      <classpath>
+        <pathelement location="${cactus.ant.jar}"/>
+        <pathelement location="${cactus.jar}"/>
+        <pathelement location="${logging.jar}"/>
+        <pathelement location="${aspectjrt.jar}"/>
+        <pathelement location="${httpclient.jar}"/>
+      </classpath>
+    </taskdef>
+
+    <cactifywar version="2.3" destfile="${target.dir}/cactus.war"
+        mergewebxml="${conf.dir}/cactus/web.xml">
+      <classes dir="${target.classes.cactus.dir}"/>
+    </cactifywar>
+
+    <ear update="true" destfile="${target.dir}/ejb.ear"
+    	appxml="${conf.dir}/cactus/application.xml">
+      <fileset dir="${target.dir}">
+        <include name="cactus.war"/>
+      </fileset>
+    </ear>
+    
+  </target>
+
+  <target name="test" depends="ear.cactify">
+
+    <cactus earfile="${target.dir}/ejb.ear" fork="yes" 
+        printsummary="yes" haltonerror="true" 
+        haltonfailure="true">
+      <containerset>
+        <jboss3x dir="${cactus.home.jboss3x}" 
+            output="jbossresult.txt"/>
+      </containerset>
+      <formatter type="brief" usefile="false"/>
+      <test name="junitbook.ejb.domain.TestOrderEJB"/>
+      <classpath>
+        <pathelement location="${target.classes.java.dir}"/>
+        <pathelement location="${target.classes.cactus.dir}"/>
+      </classpath>
+    </cactus>
+
+  </target>
+     
+</project>

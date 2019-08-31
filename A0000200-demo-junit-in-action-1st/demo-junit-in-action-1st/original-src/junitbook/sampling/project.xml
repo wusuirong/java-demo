@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+  <id>junitbook-sampling</id>
+  <name>JUnit in Action - Sampling JUnit</name>
+  <currentVersion>1.0</currentVersion>
+  <organization>
+    <name>Manning Publications Co.</name>
+    <url>http://www.manning.com/</url>
+    <logo>http://www.manning.com/front/dance.gif</logo>
+  </organization>
+  <inceptionYear>2002</inceptionYear>
+  <package>junitbook.a3_sampling</package>
+  <logo>/images/jia.jpg</logo>
+
+  <description>
+    Chapter 3 presents a sophisticated test case to show how JUnit 
+    works with larger components. The subject of our case study is 
+    a component found in many applications: a controller. We 
+    introduce the case-study code, identify what code to test, and
+    then show how to test it. Once we know that the code works as 
+    expected, we create tests for exceptional conditions, to be 
+    sure our code behaves well even when things go wrong. 
+  </description>
+  <shortDescription>
+    Chapter 3 of JUnit in Action: Sampling JUnit
+  </shortDescription>
+
+  <url>http://sourceforge.net/projects/junitbook/</url>
+
+  <developers>
+    <developer>
+      <name>Vincent Massol</name>
+      <id>vmassol</id>
+      <email>vmassol@users.sourceforge.net</email>
+      <organization>Pivolis</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Ted Husted</name>
+      <id>thusted</id>
+      <email>thusted@users.sourceforge.net</email>
+      <organization>Husted dot Com</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/Test*All.java</exclude>
+        <exclude>**/TestDefaultController?.java</exclude>
+      </excludes>
+    </unitTest>
+  </build>
+
+</project>

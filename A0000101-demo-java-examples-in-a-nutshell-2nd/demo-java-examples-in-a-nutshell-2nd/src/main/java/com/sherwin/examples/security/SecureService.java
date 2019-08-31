@@ -9,7 +9,8 @@ package com.sherwin.examples.security;
  * For a commercial use license, or to purchase the book (recommended),
  * visit http://www.davidflanagan.com/javaexamples2.
  */
-import com.davidflanagan.examples.net.*;  // Note no package statement here.
+import com.sherwin.examples.net.Server;
+
 import java.io.*;
 
 /**
